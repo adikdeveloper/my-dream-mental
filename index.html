@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="MY DREAM MENTAL — Mental arifmetikani har kuni mashq qil, natijangni kuzat!" />
+    <title>MY DREAM MENTAL</title>
+    <script>
+      // Sahifa chizilishidan oldin temani qo'yish (miltillash/FOUC bo'lmasligi uchun)
+      (function () {
+        try {
+          var m = localStorage.getItem("mdm-theme") || "auto";
+          var light = m === "light" || (m === "auto" && window.matchMedia("(prefers-color-scheme: light)").matches);
+          if (light) document.documentElement.classList.add("light");
+          document.documentElement.style.colorScheme = light ? "light" : "dark";
+        } catch (e) { /* ignore */ }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

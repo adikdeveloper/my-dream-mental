@@ -1,0 +1,557 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+html.light {
+  color-scheme: light;
+}
+
+body {
+  @apply antialiased text-slate-100;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background:
+    radial-gradient(900px 500px at 85% -5%, rgba(37, 48, 120, 0.55), transparent 60%),
+    radial-gradient(800px 500px at -10% 20%, rgba(245, 158, 11, 0.07), transparent 55%),
+    linear-gradient(180deg, #0b1026 0%, #060a1c 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(245, 158, 11, 0.4);
+}
+
+/* ---------- Surfaces ---------- */
+.card {
+  @apply rounded-2xl border border-white/10 bg-white/[0.045] shadow-card backdrop-blur-sm;
+}
+
+.card-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px) scale(1.015);
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.55), 0 0 18px rgba(245, 158, 11, 0.14);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.page-anim {
+  animation: fadeUp 0.45s ease both;
+}
+
+/* ---------- Buttons / inputs ---------- */
+.btn-primary {
+  @apply rounded-xl px-5 py-3 font-extrabold text-navy-950 transition active:scale-[.97] disabled:opacity-50 disabled:pointer-events-none;
+  background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 55%, #eab308 100%);
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.btn-primary:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 6px 22px rgba(245, 158, 11, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.btn-ghost-dark {
+  @apply rounded-xl px-4 py-2.5 font-semibold border border-white/15 bg-white/5 text-slate-200 transition hover:bg-white/10 hover:border-white/25 active:scale-[.98] disabled:opacity-50;
+}
+
+.input {
+  @apply w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white placeholder:text-slate-500 outline-none transition focus:border-gold-500/70 focus:ring-2 focus:ring-gold-500/30;
+}
+
+select.input option {
+  background-color: #10173a;
+  color: #fff;
+}
+
+.label {
+  @apply text-sm font-medium text-slate-300 mb-1 block;
+}
+
+.skeleton {
+  @apply animate-pulse bg-white/10 rounded;
+}
+
+/* ---------- Tables ---------- */
+.tbl {
+  @apply w-full text-sm;
+}
+.tbl thead tr {
+  @apply text-left text-slate-400 border-b border-white/10;
+}
+.tbl thead th {
+  @apply p-3 text-xs font-semibold uppercase tracking-wider;
+}
+.tbl tbody tr {
+  @apply border-b border-white/5 transition hover:bg-white/5;
+  border-bottom-width: 1px;
+}
+.tbl tbody tr:last-child {
+  border-bottom: none;
+}
+.tbl tbody td {
+  @apply p-3;
+}
+
+/* ---------- Range sliders ---------- */
+input[type="range"].slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #f59e0b var(--fill, 50%), rgba(255, 255, 255, 0.12) var(--fill, 50%));
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"].slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffe9a8, #f59e0b);
+  border: 3px solid #0b1026;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.6), 0 0 16px rgba(245, 158, 11, 0.55);
+  transition: transform 0.15s ease;
+}
+input[type="range"].slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+input[type="range"].slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffe9a8, #f59e0b);
+  border: 3px solid #0b1026;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.6), 0 0 16px rgba(245, 158, 11, 0.55);
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.25);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 158, 11, 0.45);
+}
+
+@media print {
+  .no-print { display: none !important; }
+  .print-card { box-shadow: none !important; border: 2px dashed #f59e0b !important; }
+}
+
+/* ============================================================
+   KUNDUZGI REJIM (light theme) — html.light klassi orqali
+   Barcha qorong'u ranglar yorug' muqobilga almashtiriladi.
+   ============================================================ */
+.light body {
+  color: #0f1b3d;
+  background:
+    radial-gradient(900px 500px at 85% -5%, rgba(245, 158, 11, 0.16), transparent 60%),
+    radial-gradient(800px 500px at -10% 20%, rgba(59, 130, 246, 0.14), transparent 55%),
+    linear-gradient(180deg, #f8fafc 0%, #eef4ff 55%, #fff8e9 100%);
+}
+
+.light ::selection {
+  background: rgba(245, 158, 11, 0.35);
+}
+
+/* Matn ranglari */
+.light .text-white { color: #0b1026; }
+.light .text-slate-100 { color: #0b1026; }
+.light .text-slate-200 { color: #1e293b; }
+.light .text-slate-300 { color: #334155; }
+.light .text-slate-400 { color: #64748b; }
+.light .text-slate-500 { color: #64748b; }
+.light .hover\:text-slate-200:hover { color: #0b1026; }
+.light .text-gold-300 { color: #b45309; }
+.light .text-gold-400 { color: #d97706; }
+.light .text-red-300 { color: #dc2626; }
+.light .text-red-400 { color: #dc2626; }
+.light .text-emerald-300 { color: #059669; }
+.light .text-brand-300 { color: #2563eb; }
+.light .text-amber-200 { color: #b45309; }
+.light .placeholder\:text-slate-500::placeholder { color: #94a3b8; }
+
+/* Qizil/yashil to'liq fonli tugma va toaslarda oq matn saqlansin */
+.light .bg-emerald-700,
+.light .bg-red-700,
+.light .bg-red-600 { color: #fff; }
+.light .bg-navy-800 { background-color: #0b1026; color: #fff; }
+
+/* Shaffof oq fonlar → shaffof to'q ko'k */
+.light .bg-white\/5 { background-color: rgba(11, 16, 38, 0.04); }
+.light .bg-white\/10 { background-color: rgba(11, 16, 38, 0.07); }
+.light .bg-white\/20 { background-color: rgba(11, 16, 38, 0.14); }
+.light .hover\:bg-white\/5:hover { background-color: rgba(11, 16, 38, 0.05); }
+.light .hover\:bg-white\/10:hover { background-color: rgba(11, 16, 38, 0.08); }
+.light .border-white\/5 { border-color: rgba(11, 16, 38, 0.08); }
+.light .border-white\/10 { border-color: rgba(11, 16, 38, 0.12); }
+.light .border-white\/15 { border-color: rgba(11, 16, 38, 0.18); }
+.light .hover\:border-white\/25:hover { border-color: rgba(11, 16, 38, 0.28); }
+.light .divide-white\/10 > :not([hidden]) ~ :not([hidden]) { border-color: rgba(11, 16, 38, 0.1); }
+
+/* Navy sirtlar → oq/shaffof oq */
+.light .bg-navy-950 { background-color: rgba(255, 255, 255, 0.92); }
+.light .bg-navy-950\/50 { background-color: rgba(255, 255, 255, 0.6); }
+.light .bg-navy-950\/60 { background-color: rgba(255, 255, 255, 0.75); }
+.light .bg-navy-950\/70 { background-color: rgba(15, 23, 42, 0.45); }
+.light .bg-navy-950\/80 { background-color: rgba(255, 255, 255, 0.85); }
+.light .bg-navy-950\/90 { background-color: rgba(255, 255, 255, 0.92); }
+.light .bg-navy-850 { background-color: #ffffff; }
+.light .border-navy-950 { border-color: rgba(11, 16, 38, 0.2); }
+
+/* Sidebar */
+.side-shell {
+  background: linear-gradient(180deg, #0b1026 0%, #070b1d 100%);
+}
+.light .side-shell {
+  background: linear-gradient(180deg, #ffffff 0%, #edf2ff 100%);
+}
+
+/* Landing CTA porlashi */
+.cta-glow {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(37, 48, 120, 0.25));
+}
+.light .cta-glow {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.16), rgba(59, 130, 246, 0.14));
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* Kartochka / input / tugma / jadval */
+.light .card {
+  border-color: rgba(11, 16, 38, 0.1);
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 24px rgba(15, 27, 61, 0.08);
+}
+.light .card-hover:hover {
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 12px 28px rgba(15, 27, 61, 0.12), 0 0 18px rgba(245, 158, 11, 0.18);
+  background-color: #ffffff;
+}
+.light .btn-ghost-dark {
+  border-color: rgba(11, 16, 38, 0.16);
+  background-color: #ffffff;
+  color: #0f1b3d;
+}
+.light .btn-ghost-dark:hover {
+  background-color: #f1f5f9;
+  border-color: rgba(11, 16, 38, 0.28);
+}
+.light .input {
+  border-color: rgba(11, 16, 38, 0.16);
+  background-color: #ffffff;
+  color: #0b1026;
+}
+.light .input:focus {
+  border-color: rgba(245, 158, 11, 0.8);
+}
+.light select.input option {
+  background-color: #ffffff;
+  color: #0b1026;
+}
+.light .label { color: #475569; }
+.light .skeleton { background-color: #e2e8f0; }
+.light .tbl thead tr { color: #64748b; border-color: rgba(11, 16, 38, 0.1); }
+.light .tbl tbody tr { border-color: rgba(11, 16, 38, 0.07); }
+.light .tbl tbody tr:hover { background-color: rgba(11, 16, 38, 0.04); }
+.light input[type="range"].slider {
+  background: linear-gradient(to right, #f59e0b var(--fill, 50%), rgba(11, 16, 38, 0.14) var(--fill, 50%));
+}
+.light input[type="range"].slider::-webkit-slider-thumb { border-color: #ffffff; }
+.light input[type="range"].slider::-moz-range-thumb { border-color: #ffffff; }
+
+/* Grafiklar (Donut) */
+.donut-track { stroke: rgba(255, 255, 255, 0.1); }
+.donut-text { fill: #ffffff; }
+.light .donut-track { stroke: rgba(11, 16, 38, 0.12); }
+.light .donut-text { fill: #0b1026; }
+
+/* Hero gradient sarlavha: tungida yorqin oltin gradient,
+   kunduzida — ochiq fonda kafolatli o'qiladigan to'q oltin (gradientsiz) */
+.hero-grade {
+  background-image: linear-gradient(135deg, #ffd97a, #f59e0b);
+}
+html.light .hero-grade {
+  background-image: none;
+  color: #b45309;
+}
+
+/* ============================================================
+   LANDING HERO — kunduzgi/tungi fon rasmi
+   Rasmlar: public/bg-day.jpg, public/bg-night.jpg
+   Rejimga qarab avtomatik almashadi (html.light klassi orqali).
+   ============================================================ */
+.landing-hero {
+  position: relative;
+  background-color: #0b1026;
+  background-image: url("/bg-night.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+html.light .landing-hero {
+  background-color: #f3ecdd;
+  background-image: url("/bg-day.png");
+}
+/* Matn o'qilishi uchun yarim shaffof parda (rasm ustidagi yozuvlar) */
+.landing-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6, 10, 28, 0.6), rgba(6, 10, 28, 0.35));
+  pointer-events: none;
+}
+html.light .landing-hero::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.5));
+}
+.landing-hero-inner {
+  position: relative;
+  z-index: 1;
+}
+/* Hero matnlariga soya — rasm ustida o'qilishi uchun */
+.landing-hero h1 {
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.45);
+}
+html.light .landing-hero h1 {
+  text-shadow: 0 2px 16px rgba(255, 255, 255, 0.9), 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+.landing-hero p {
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+}
+html.light .landing-hero p {
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.9);
+}
+
+/* ============================================================
+   STIKER animatsiyalari (SVG guruhlar uchun)
+   ============================================================ */
+.st-sticker { overflow: visible; flex-shrink: 0; }
+.st-bob, .st-wiggle, .st-drift, .st-spin-slow, .st-eye, .st-twinkle, .st-float-z, .st-bead {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.st-bob { animation: st-bob 3.4s ease-in-out infinite; }
+.st-wiggle { animation: st-wiggle 2.6s ease-in-out infinite; }
+.st-drift { animation: st-drift 6s ease-in-out infinite; }
+.st-spin-slow { animation: st-spin 9s linear infinite; }
+.st-eye { animation: st-blink 4.2s ease-in-out infinite; }
+.st-twinkle { animation: st-twinkle 2.2s ease-in-out infinite; }
+.st-float-z { animation: st-float-z 2.7s ease-in-out infinite; }
+.st-bead { animation: st-bead 2.8s ease-in-out infinite; }
+.st-dash { animation: st-dashmove 1.2s linear infinite; }
+
+@keyframes st-bob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-4px) rotate(2deg); }
+}
+@keyframes st-wiggle {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+@keyframes st-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(3px, -5px) rotate(4deg); }
+  66% { transform: translate(-3px, -2px) rotate(-4deg); }
+}
+@keyframes st-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes st-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.08); }
+}
+@keyframes st-twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.7) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.15) rotate(20deg); }
+}
+@keyframes st-float-z {
+  0% { opacity: 0; transform: translateY(5px); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-9px); }
+}
+@keyframes st-bead {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(2.5px); }
+}
+@keyframes st-dashmove {
+  to { stroke-dashoffset: -16; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-bob, .st-wiggle, .st-drift, .st-spin-slow, .st-eye,
+  .st-twinkle, .st-float-z, .st-bead, .st-dash,
+  .page-anim, .animate-float, .animate-float-slow, .animate-wiggle,
+  .animate-bob, .animate-blink, .animate-twinkle, .animate-drift, .animate-spin-slow {
+    animation: none !important;
+  }
+}
+
+/* ---------- Figma mobile (telefon rejimi) ---------- */
+/* 640px dan kichik ekranlarda Figma'dagi ixcham app ko'rinishi */
+@media (max-width: 640px) {
+  body {
+    background: linear-gradient(180deg, #0b1026 0%, #060a1c 100%);
+  }
+
+  /* Telefon konteyner: hammasini ekranga sig'dirish */
+  .m-page {
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .m-hero-title {
+    font-size: 22px;
+    line-height: 1.25;
+  }
+
+  .m-card {
+    border-radius: 16px;
+    padding: 14px;
+  }
+
+  .m-section-title {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Kichik statistika qutilari (Figma: 3 ustun) */
+  .m-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .m-stat-box {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 6px;
+    text-align: center;
+  }
+
+  /* Mashq ro'yxati qatori */
+  .m-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.045);
+    padding: 10px 10px 10px 12px;
+  }
+  .m-play {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #060a1c;
+    background: linear-gradient(135deg, #ffd97a, #f59e0b);
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
+    flex-shrink: 0;
+  }
+
+  /* Kustom raqam klaviaturasi (Runner) */
+  .m-keys {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .m-key {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 12px 0;
+    transition: transform 0.1s ease, background-color 0.1s ease;
+  }
+  .m-key:active {
+    transform: scale(0.95);
+    background: rgba(245, 158, 11, 0.25);
+  }
+
+  /* Toggle switch (Setup amallar turi) */
+  .m-toggle {
+    width: 44px;
+    height: 24px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.15);
+    position: relative;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+  }
+  .m-toggle.on {
+    background: linear-gradient(135deg, #ffd97a, #f59e0b);
+  }
+  .m-toggle::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    background: #fff;
+    transition: left 0.2s ease;
+  }
+  .m-toggle.on::after {
+    left: 22px;
+  }
+
+  /* Kichik pill tugmalar */
+  .m-pill {
+    border-radius: 10px;
+    padding: 8px 0;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+  }
+}
+
+/* Kunduzgi rejimda mobil Figma bloklari */
+@media (max-width: 640px) {
+  .light body {
+    background: linear-gradient(180deg, #f8fafc 0%, #eef4ff 60%, #fff8e9 100%);
+  }
+}
+.light .m-stat-box {
+  border-color: rgba(11, 16, 38, 0.1);
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 27, 61, 0.07);
+}
+.light .m-row {
+  border-color: rgba(11, 16, 38, 0.1);
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 27, 61, 0.06);
+}
+.light .m-key {
+  border-color: rgba(11, 16, 38, 0.12);
+  background: #ffffff;
+  color: #0b1026;
+}
+.light .m-key:active {
+  background: rgba(245, 158, 11, 0.3);
+}
+.light .m-toggle {
+  background: rgba(11, 16, 38, 0.18);
+}

@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.dev.vars
+.env
+.env.*
+!.env.example
+.wrangler/
+.dry/
+wrangler-output/
+*.log
+.DS_Store
+Thumbs.db
+*.sqlite
+*.sqlite-*
+*.tsbuildinfo
+.mindb/
+coverage/
