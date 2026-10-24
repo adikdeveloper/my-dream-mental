@@ -31,6 +31,12 @@ export default function TestSetup() {
         setExamples(Math.min(100, Math.max(1, r.test.question_count || 10)));
         setCount(Math.min(20, Math.max(2, r.test.flash_numbers || 5)));
         setSpeed(r.test.flash_interval_ms || 1200);
+        const mx = r.test.max_number || 20;
+        setDigits(mx >= 100 ? 3 : mx > 20 ? 2 : 1);
+        try {
+          const ops = JSON.parse(r.test.allowed_operations || '["+"]') as unknown;
+          if (Array.isArray(ops)) setWithMinus(ops.includes("-") || ops.includes("−"));
+        } catch { /* keep default */ }
       })
       .catch((e) => { push(e instanceof Error ? e.message : "Test topilmadi.", "err"); nav("/student/dashboard"); });
   }, [id, nav, push]);
@@ -122,7 +128,9 @@ export default function TestSetup() {
           <div className="flex items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
             <div>
               <div className="text-[12px] font-bold text-white">AMALLAR TURI</div>
-              <div className="text-[11px] text-slate-400">Faqat qo'shish amali (+)</div>
+              <div className="text-[11px] text-slate-400">
+                {withMinus ? "Qo'shish va ayirish amali (+ / −)" : "Faqat qo'shish amali (+)"}
+              </div>
             </div>
             <button type="button" role="switch" aria-checked={withMinus} onClick={() => setWithMinus((v) => !v)}
               className={`m-toggle ${withMinus ? "on" : ""}`} aria-label="Ayirishni yoqish" />

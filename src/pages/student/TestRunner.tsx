@@ -95,6 +95,7 @@ export default function TestRunner() {
       if (v !== undefined) overrides[k] = v;
     }
     if (search.get("minus") === "0") overrides.minus = 0;
+    else if (search.get("minus") === "1") overrides.minus = 1;
     const cacheKey = myKey;
     if (startPromises.size > 50) startPromises.clear(); // xotira himoyasi
     let p = startPromises.get(cacheKey);

@@ -113,12 +113,13 @@ export async function routeTests(req: Request, env: Env, url: URL): Promise<Resp
       try { ops = normalizeOps(JSON.parse(test.allowed_operations)); } catch { ops = ["+"]; }
       let allowMinus = ops.includes("-");
       if (startBody["minus"] === 0) allowMinus = false;
+      else if (startBody["minus"] === 1) allowMinus = true;
       // Student sozlash ekranidan yuborgan override'lar (clamp bilan xavfsiz)
       const ov = clampFlashOverrides(startBody, test);
 
       // RESUME: shu test bo'yicha yaqinda ochilgan urinish bo'lsa — yangisini yaratmaymiz.
       // (React StrictMode / ikki marta bosish / sahifani yangilash holatlari)
-      // MUHIM: sozlamalar o'zgargan bo'lsa (masalan 25 → 5 misol) resume qilmaymiz —
+      // MUHIM: sozlamalar o'zgargan bo'lsa (masalan 25 → 5 misol yoki xona oralig'i) resume qilmaymiz —
       // eski ochiq urinishni yopib, yangi sozlama bilan yangisini yaratamiz.
       const recent = await env.DB.prepare(
         "SELECT id, total_questions FROM test_attempts WHERE student_id = ? AND test_id = ? AND status = 'in_progress' AND started_at > ? ORDER BY started_at DESC LIMIT 1"
@@ -132,7 +133,15 @@ export async function routeTests(req: Request, env: Env, url: URL): Promise<Resp
           if (q1?.flash_numbers_json) {
             try {
               const arr = JSON.parse(q1.flash_numbers_json) as unknown;
-              if (Array.isArray(arr) && arr.length !== ov.count) sameSettings = false;
+              if (Array.isArray(arr)) {
+                if (arr.length !== ov.count) sameSettings = false;
+                for (const item of arr) {
+                  const s = String(item);
+                  if (!allowMinus && s.startsWith("-")) sameSettings = false;
+                  const abs = Math.abs(Number(s));
+                  if (Number.isFinite(abs) && (abs < ov.minNumber || abs > ov.maxNumber)) sameSettings = false;
+                }
+              }
             } catch { /* ignore */ }
           }
         }

@@ -98,23 +98,32 @@ export default function StudentDashboard() {
         </div>
       </div>
 
-      {/* Faollik taqvimi — ixcham */}
+      {/* Faollik taqvimi — ixcham (so'nggi 7 kun, Toshkent vaqti) */}
       <Card className="m-card !p-3 sm:p-6">
         <div className="m-section-title text-slate-400 font-bold">FAOLLIK TAQVIMI</div>
         <div className="mt-2 flex justify-between text-center">
-          {(d.week || []).slice(-7).map((w, i) => {
-            const days = ["Du", "Se", "Cho", "Pa", "Ju", "Sha", "Ya"];
-            const active = (w.total_questions || 0) > 0;
-            return (
-              <div key={w.date_key + i} className="flex flex-col items-center gap-1">
-                <span className="text-[10px] text-slate-500">{days[i % 7]}</span>
-                <span className={`w-7 h-7 grid place-items-center rounded-full text-[11px] font-bold ${active ? "text-navy-950" : "bg-white/5 text-slate-500"}`}
-                  style={active ? { background: "linear-gradient(135deg,#ffd97a,#f59e0b)" } : undefined}>
-                  {active ? "✓" : "·"}
-                </span>
-              </div>
-            );
-          })}
+          {(() => {
+            const byDate = new Map((d.week || []).map((w) => [w.date_key, w.total_questions || 0]));
+            const weekdays = ["Ya", "Du", "Se", "Cho", "Pa", "Ju", "Sha"];
+            const dayMs = 86400000;
+            const nowTash = Date.now() + 5 * 3600000;
+            const todayMidnight = Math.floor(nowTash / dayMs) * dayMs;
+            return Array.from({ length: 7 }, (_, idx) => {
+              const dt = new Date(todayMidnight - (6 - idx) * dayMs);
+              const key = dt.toISOString().slice(0, 10);
+              const label = weekdays[dt.getUTCDay()];
+              const active = (byDate.get(key) || 0) > 0;
+              return (
+                <div key={key} className="flex flex-col items-center gap-1" title={key}>
+                  <span className="text-[10px] text-slate-500">{label}</span>
+                  <span className={`w-7 h-7 grid place-items-center rounded-full text-[11px] font-bold ${active ? "text-navy-950" : "bg-white/5 text-slate-500"}`}
+                    style={active ? { background: "linear-gradient(135deg,#ffd97a,#f59e0b)" } : undefined}>
+                    {active ? "✓" : "·"}
+                  </span>
+                </div>
+              );
+            });
+          })()}
         </div>
       </Card>
 
@@ -133,9 +142,9 @@ export default function StudentDashboard() {
                     {meta.icon}
                   </span>
                   <span className="flex-1 min-w-0">
-                    <span className="font-bold text-white text-[13px] sm:text-base block truncate">{meta.title}</span>
+                    <span className="font-bold text-white text-[13px] sm:text-base block truncate">{test.name || meta.title}</span>
                     <span className="text-[11px] sm:text-xs text-slate-400 block truncate">
-                      {test.question_count} misol · {test.flash_numbers} sonli sonlar · {levelNames[test.difficulty] || test.difficulty}
+                      {meta.title} · {test.question_count} misol · {test.flash_numbers} sonli · {levelNames[test.difficulty] || test.difficulty}
                     </span>
                   </span>
                   <span className="m-play sm:btn-primary sm:!px-4 sm:!py-2.5 sm:text-sm sm:shrink-0 sm:w-auto sm:h-auto sm:rounded-xl">›</span>

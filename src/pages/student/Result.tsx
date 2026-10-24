@@ -4,7 +4,7 @@ import { api } from "../../lib/api";
 import { Card, StatCard, Loading, Badge, GhostButton } from "../../components/ui";
 import { Donut } from "../../components/Charts";
 import { formatSeconds } from "../../lib/utils";
-import { t } from "../../lib/i18n";
+import { t, levelNames } from "../../lib/i18n";
 
 interface Res {
   attempt: {
@@ -49,7 +49,7 @@ export default function Result() {
           <h1 className="text-3xl font-extrabold text-white">{t.result}: {a.correct_count} / {a.total_questions}</h1>
           <p className="text-slate-400 mt-1">{a.test_name}</p>
           <div className="mt-4 flex justify-center"><Donut correct={a.correct_count} wrong={a.wrong_count} size={140} /></div>
-          <div className="mt-3"><Badge tone="blue">{a.difficulty}</Badge></div>
+          <div className="mt-3"><Badge tone="blue">{levelNames[a.difficulty] || a.difficulty}</Badge></div>
         </Card>
         <div className="grid grid-cols-2 gap-3">
           <StatCard icon="🎯" label={t.accuracy} value={`${Math.round(a.accuracy)}%`} accent="text-emerald-300" />
